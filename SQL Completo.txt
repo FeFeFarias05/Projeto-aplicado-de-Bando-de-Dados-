@@ -1,0 +1,187 @@
+CREATE TABLE FUNCIONARIO (      
+    codigo INTEGER NOT NULL,       
+    nome VARCHAR(50) NOT NULL,        
+    CPF INTEGER NOT NULL,       
+    treinamento NUMBER NOT NULL,        
+    celular INTEGER NOT NULL,    
+    CEP INTEGER NOT NULL,       
+    codigoEmpresa INTEGER  NULL,        
+    PRIMARY KEY (codigo),        
+    FOREIGN KEY (codigoEmpresa) REFERENCES EMPRESA(codigo)       
+) DEFAULT COLLATION BINARY_AI;      
+
+  
+
+CREATE TABLE CAIXA (       
+    guiche INTEGER NOT NULL,       
+    data_caixa DATE NOT NULL,        
+    numTransacoes INTEGER NOT NULL,        
+    valorInicialCaixa INTEGER NOT NULL,        
+    valorFinalCaixa INTEGER NOT NULL,       
+    lucro INTEGER NOT NULL,  
+    codigoFunc INTEGER NOT NULL,
+    PRIMARY KEY (guiche),         
+    FOREIGN KEY (codigoFunc) REFERENCES FUNCIONARIO(codigo)       
+) DEFAULT COLLATION BINARY_AI;        
+
+  
+
+CREATE TABLE CLIENTE (       
+    codigo INTEGER NOT NULL,      
+    nome VARCHAR(50) NOT NULL,       
+    dataNascimento DATE NOT NULL,        
+    celular INTEGER NOT NULL,        
+    PRIMARY KEY (codigo)       
+) DEFAULT COLLATION BINARY_AI;      
+
+  
+
+CREATE TABLE TICKET (       
+    codigo INTEGER NOT NULL,      
+    tipo VARCHAR(30) NOT NULL,        
+    valor INTEGER NULL, 
+    quantidadeTicket INTEGER NOT NULL, 
+    codigoVenda INTEGER NULL, 
+    codigoCliente INTEGER NOT NULL,
+    codigoCaixa INTEGER NULL,
+    PRIMARY KEY (codigo),      
+    FOREIGN KEY (codigoCliente) REFERENCES CLIENTE(codigo),       
+    FOREIGN KEY (codigoCaixa) REFERENCES CAIXA(guiche)       
+) DEFAULT COLLATION BINARY_AI;       
+
+  
+
+  
+CREATE TABLE PREMIO (       
+    codigo INTEGER NOT NULL,      
+    valor INTEGER NOT NULL,  
+    nome VARCHAR(50) NOT NULL, 
+    codigoCliente INTEGER NOT NULL,
+    PRIMARY KEY (codigo),
+    FOREIGN KEY (codigoCliente) REFERENCES CLIENTE(codigo)           
+) DEFAULT COLLATION BINARY_AI;     
+
+  
+
+CREATE TABLE EMPRESA (       
+    codigo INTEGER NOT NULL,      
+    nome VARCHAR(50) NOT NULL,        
+    CNPJ INTEGER NOT NULL,        
+    especialidade VARCHAR(50) NOT NULL,        
+    email VARCHAR(50) NOT NULL,        
+    celular INTEGER NOT NULL,       
+    PRIMARY KEY (codigo)       
+) DEFAULT COLLATION BINARY_AI;       
+
+  
+
+CREATE TABLE ESTANDE (       
+    codigo INTEGER NOT NULL,      
+    localParque VARCHAR(50) NOT NULL,        
+    valorTicket INTEGER NOT NULL,         
+    codigoEmpresa INTEGER NOT NULL, 
+    PRIMARY KEY (codigo),        
+    FOREIGN KEY (codigoEmpresa) REFERENCES EMPRESA(codigo)       
+) DEFAULT COLLATION BINARY_AI;      
+
+  
+
+  
+CREATE TABLE BRINQUEDO (       
+    codigo_estande INTEGER NOT NULL,  
+    dataManutencao DATE NOT NULL,       
+    dataCompra DATE NOT NULL,        
+    nome VARCHAR(50) NOT NULL, 
+    PRIMARY KEY (codigo_estande),     
+    FOREIGN KEY (codigo_estande) REFERENCES ESTANDE(codigo)        
+) DEFAULT COLLATION BINARY_AI;       
+
+  
+
+CREATE TABLE ALIMENTO (       
+    codigo_estande INTEGER NOT NULL,        
+    tipoAlimento VARCHAR(50) NOT NULL,       
+	peso INTEGER NOT NULL,        
+    quantidade INTEGER NOT NULL,        
+    PRIMARY KEY (codigo_estande),       
+    FOREIGN KEY (codigo_estande) REFERENCES ESTANDE(codigo)        
+) DEFAULT COLLATION BINARY_AI;        
+
+
+   
+INSERT INTO CAIXA (guiche, data_caixa, numTransacoes, valorInicialCaixa, valorFinalCaixa, lucro, codigoFunc) VALUES (2, TO_DATE('10-08-2023', 'DD-MM-YYYY'), 3000, 500, 7000, 6500, 1);      
+INSERT INTO CAIXA (guiche, data_caixa, numTransacoes, valorInicialCaixa, valorFinalCaixa, lucro, codigoFunc) VALUES (1, TO_DATE('10-08-2023', 'DD-MM-YYYY'), 3500, 500, 8000, 7500, 2);      
+INSERT INTO CAIXA (guiche, data_caixa, numTransacoes, valorInicialCaixa, valorFinalCaixa, lucro, codigoFunc) VALUES (3, TO_DATE('12-08-2023', 'DD-MM-YYYY'), 2500, 300, 2000, 1700, 3);      
+
+  
+
+  
+
+INSERT INTO FUNCIONARIO (codigo, nome, CPF, treinamento, celular, CEP, codigoEmpresa) VALUES (1, 'Marina Pianta', 87598725698, 1, 51997500578, 94764123, null);       
+INSERT INTO FUNCIONARIO (codigo, nome, CPF, treinamento, celular, CEP, codigoEmpresa) VALUES (2, 'Fernanda Farias', 49782516452, 1, 51998475213, 95890460, null);       
+INSERT INTO FUNCIONARIO (codigo, nome, CPF, treinamento, celular, CEP, codigoEmpresa) VALUES (3, 'Ana Laura Lopes', 18957964102, 1, 51984596782, 90456289, null);       
+INSERT INTO FUNCIONARIO (codigo, nome, CPF, treinamento, celular, CEP, codigoEmpresa) VALUES (4, 'Carol Sampaio', 84609743812, 0, 51999996425, 98459347, 1);       
+
+  
+
+
+INSERT INTO CLIENTE (codigo, nome, dataNascimento, celular) VALUES (1, 'Ana Lucia Barros', TO_DATE('17-08-1949', 'DD-MM-YYYY'), 51980506879);       
+INSERT INTO CLIENTE (codigo, nome, dataNascimento, celular) VALUES (2, 'Lucas Silveira', TO_DATE('23-11-1999', 'DD-MM-YYYY'), 51997064231);       
+INSERT INTO CLIENTE (codigo, nome, dataNascimento, celular) VALUES (3, 'Caio Pereira', TO_DATE('08-02-2003', 'DD-MM-YYYY'), 51996457389);       
+
+  
+
+INSERT INTO TICKET (codigo, tipo, valor, quantidadeTicket, codigoVenda, codigoCliente, codigoCaixa) VALUES (1, 'Brinquedo', 5, 15, 5, 2, 3);     
+INSERT INTO TICKET (codigo, tipo, valor, quantidadeTicket, codigoVenda, codigoCliente, codigoCaixa) VALUES (2, 'Alimento', 6, 20, 6, 1, 2);  
+INSERT INTO TICKET (codigo, tipo, valor, quantidadeTicket, codigoVenda, codigoCliente, codigoCaixa) VALUES (4, 'Premio', null, 10, null, 1, null);     
+
+
+INSERT INTO PREMIO (codigo, valor, nome, codigoCliente) VALUES (01, 10, 'Bola Gigante Colorida', 1);     
+INSERT INTO PREMIO (codigo, valor, nome, codigoCliente) VALUES (02, 2, 'Chaveiro', 1);     
+INSERT INTO PREMIO (codigo, valor, nome, codigoCliente) VALUES (03, 5, 'Estralinho', 3);     
+
+
+INSERT INTO EMPRESA (codigo, nome, CNPJ, especialidade, email, celular) VALUES (1, 'TechFun S.A.', 98765432000121, 'Brinquedo de parque de diversões', 'info@techfun.com',  2198765432);     
+INSERT INTO EMPRESA (codigo, nome, CNPJ, especialidade, email, celular) VALUES (2, 'Sabores Deliciosos', 55555555000101, 'Alimentos', 'contato@saboresdeliciosos.com', 4729768231);  
+INSERT INTO EMPRESA (codigo, nome, CNPJ, especialidade, email, celular) VALUES (3, 'Diversão Premiada Eventos Ltda', 45678901000134, 'Premios', 'contato@diversaopremiada.com', 2298765432);     
+INSERT INTO EMPRESA (codigo, nome, CNPJ, especialidade, email, celular) VALUES (4, 'Higiene Total Ltda', 56789012000189, 'Limpeza/Sanitários', 'contato@higienetotal.com', 44987654321);     
+
+
+INSERT INTO ESTANDE (codigo, localParque, valorTicket, codigoEmpresa) VALUES (6, 'Zona A', 10, 1);     
+INSERT INTO ESTANDE (codigo, localParque, valorTicket, codigoEmpresa) VALUES (7, 'Zona A', 5, 1);     
+INSERT INTO ESTANDE (codigo, localParque, valorTicket, codigoEmpresa) VALUES (8, 'Zona A', 10, 1);     
+INSERT INTO ESTANDE (codigo, localParque, valorTicket, codigoEmpresa) VALUES (9, 'Zona C', 15, 2);     
+INSERT INTO ESTANDE (codigo, localParque, valorTicket, codigoEmpresa) VALUES (10, 'Zona C', 5, 2);     
+INSERT INTO ESTANDE (codigo, localParque, valorTicket, codigoEmpresa) VALUES (11, 'Zona C', 7, 2);     
+
+  
+INSERT INTO BRINQUEDO (codigo_estande, dataManutencao, dataCompra, nome) VALUES (6, TO_DATE('29122023', 'DD-MM-YYYY'), TO_DATE('15092020', 'DD-MM-YYYY'), 'Gira-Gira');     
+INSERT INTO BRINQUEDO (codigo_estande, dataManutencao, dataCompra, nome) VALUES (7,TO_DATE('29122023', 'DD-MM-YYYY'), TO_DATE('15092020', 'DD-MM-YYYY'), 'Centopeia');     
+INSERT INTO BRINQUEDO (codigo_estande, dataManutencao, dataCompra, nome) VALUES (8, TO_DATE('20022024', 'DD-MM-YYYY'), TO_DATE('14052019', 'DD-MM-YYYY'), 'Montanha Russa');     
+
+
+INSERT INTO ALIMENTO (codigo_estande, tipoAlimento, peso, quantidade) VALUES (9, 'Batata Frita', 0.25, 500);     
+INSERT INTO ALIMENTO (codigo_estande, tipoAlimento, peso, quantidade) VALUES (10, 'Pipoca', 0.10, 500);     
+INSERT INTO ALIMENTO (codigo_estande, tipoAlimento, peso, quantidade) VALUES (11, 'Refrigerantes', 0.0005, 1000);  
+
+SELECT*FROM FUNCIONARIO;    
+SELECT*FROM CAIXA;    
+SELECT*FROM CLIENTE;    
+SELECT*FROM TICKET;  
+SELECT*FROM PREMIO;  
+SELECT*FROM EMPRESA;  
+SELECT*FROM ESTANDE;  
+SELECT*FROM BRINQUEDO;  
+SELECT*FROM ALIMENTO;  
+
+
+
+SELECT * FROM CLIENTE c ORDER BY c.nome DESC;
+
+SELECT e.nome AS nome_empresa, COUNT(es.codigo) AS qtd_estandes FROM EMPRESA e, ESTANDE es WHERE e.codigo = es.codigoEmpresa GROUP BY e.nome;
+
+SELECT c.nome AS nome_cliente, c.codigo AS codigo_cliente, c.dataNascimento AS dataNascimento_cliente, c.celular AS celular_cliente, p.nome AS nome_premio, p.valor AS valor_premio, p.codigo AS codigo_premio FROM CLIENTE c JOIN PREMIO p ON c.codigo = p.codigoCliente;
+
+SELECT e.codigo, e.nome AS nome_empresa FROM EMPRESA e WHERE e.codigo BETWEEN 1 AND 3;
+
+SELECT c.nome AS nome_cliente, p.nome AS nome_premio FROM CLIENTE c LEFT JOIN PREMIO p ON c.codigo = p.codigoCliente;
